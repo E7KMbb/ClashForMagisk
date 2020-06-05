@@ -44,7 +44,7 @@ jobs:
     - name: Build with Gradle
       run: bash ./gradlew build
     - name: Compressed file
-      run: tar zcvf clash.tar.gz /home/runner/work/ClashRForMagisk/ClashRForMagisk
+      run: tar zcvf clash.tar.gz home/runner/work/ClashRForMagisk/ClashRForMagisk
     - name: Upload file
       uses: actions/upload-artifact@master
       with:
