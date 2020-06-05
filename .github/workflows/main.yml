@@ -39,21 +39,17 @@ jobs:
             curl https://raw.githubusercontent.com/golang/dep/master/install.sh | sh
             dep ensure
         fi
-   # - name: Initialize git submodule
-    #  run: git submodule init && git submodule upate
-    #- name: git clash
-     # run: cd /home/runner/work/ClashForMagisk/ClashForMagisk && git clone -b master https://github.com/Dreamacro/clash ~/clash/src/main/golan/clash
     - name: Make Gradle executable
       run: chmod +x ./gradlew
     - name: Build with Gradle
       run: bash ./gradlew build
     - name: Compressed file
-      run: tar cvf clash.tar /home/runner/work/ClashForMagisk/ClashForMagisk
+      run: tar zcvf clash.tar.gz ClashForMagisk
     - name: Upload file
       uses: actions/upload-artifact@master
       with:
-        name: clash.tar.xz
-        path: /home/runner/work/ClashForMagisk/ClashForMagisk/clash.tar
+        name: clash.tar.gz
+        path: /home/runner/work/ClashForMagisk/ClashForMagisk/clash.tar.gz
     - name: upzip
       uses: actions/upload-artifact@master
       with:
