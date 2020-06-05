@@ -49,10 +49,9 @@ jobs:
         name: clash-for-magisk.zip
         path: /home/runner/work/ClashForMagisk/ClashForMagisk/module/build/outputs/clash-for-magisk.zip
     - name: Compressed file
-      run: |
-        tar -cvzf clash.tar /home/runner/work/ClashForMagisk
+      run: zip -r clash.zip /home/runner/work/ClashForMagisk/ClashForMagisk
     - name: Upload file
       uses: actions/upload-artifact@master
       with:
-        name: clash.tar
-        path: /home/runner/work/ClashForMagisk/ClashForMagisk/clash.tar
+        name: clash.zip
+        path: /home/runner/work/ClashForMagisk/ClashForMagisk/clash.zip
