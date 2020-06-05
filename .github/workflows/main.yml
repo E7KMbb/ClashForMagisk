@@ -1,0 +1,65 @@
+name: Build
+
+on:
+ push:
+  branches:
+   - master
+   
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v2.0.0
+    - name: Set up JDK 11
+      uses: actions/setup-java@v1
+      with:
+        java-version: 11.0.2
+    - name: Android NDK toolchain Setup
+      uses: ravinderjangra/android-ndk-toolchain-setup@0.1
+      with: 
+        api: '21'
+        arch: 'arm'
+        install-location: 'toolchains'
+    - uses: subosito/flutter-action@v1.1.1
+      with:
+        flutter-version: '1.12.x' # you can use
+      - name: Setup Go
+        uses: actions/setup-go@v1
+        with:
+          go-version: 1.13.x
+
+      - name: Check out code into the Go module directory
+        uses: actions/checkout@v1
+      
+      - name: Cache go module
+        uses: actions/cache@v1
+        with:
+          path: ~/go/pkg/mod
+          key: ${{ runner.os }}-go-${{ hashFiles('**/go.sum') }}
+          restore-keys: |
+            ${{ runner.os }}-go-
+
+      - name: Get dependencies and run test
+        run: |
+          go test ./...
+
+   # - name: Initialize git submodule
+    #  run: git submodule init && git submodule upate
+    #- name: git clash
+     # run: cd /home/runner/work/ClashForMagisk/ClashForMagisk && git clone -b master https://github.com/Dreamacro/clash ~/clash/src/main/golan/clash
+    - name: Make Gradle executable
+      run: chmod +x ./gradlew
+    - name: Build with Gradle
+      run: bash ./gradlew build
+    - name: Compressed file
+      run: tar cvf clash.tar /home/runner/work/ClashForMagisk/ClashForMagisk
+    - name: Upload file
+      uses: actions/upload-artifact@master
+      with:
+        name: clash.tar.xz
+        path: /home/runner/work/ClashForMagisk/ClashForMagisk/clash.tar
+    - name: upzip
+      uses: actions/upload-artifact@master
+      with:
+        name: clash-for-magisk.zip
+        path: /home/runner/work/ClashForMagisk/ClashForMagisk/module/build/outputs/clash-for-magisk.zip
