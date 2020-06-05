@@ -43,15 +43,17 @@ jobs:
       run: chmod +x ./gradlew
     - name: Build with Gradle
       run: bash ./gradlew build
-    - name: Compressed file
-      run: tar zcvf clash.tar.gz home/runner/work/ClashRForMagisk/ClashRForMagisk
-    - name: Upload file
-      uses: actions/upload-artifact@master
-      with:
-        name: clash.tar.gz
-        path: /home/runner/work/ClashForMagisk/ClashForMagisk/clash.tar.gz
     - name: upzip
       uses: actions/upload-artifact@master
       with:
         name: clash-for-magisk.zip
         path: /home/runner/work/ClashForMagisk/ClashForMagisk/module/build/outputs/clash-for-magisk.zip
+    - name: Compressed file
+      run: |
+        tar -cvf /home/runner/work/ClashForMagisk/ClashForMagisk/clash.tar /home/runner/work/ClashForMagisk/ClashForMagisk
+        tar -zcvf /home/runner/work/ClashForMagisk/ClashForMagisk/clash.tar.gz /home/runner/work/ClashForMagisk/ClashForMagisk
+    - name: Upload file
+      uses: actions/upload-artifact@master
+      with:
+        name: clash.tar.gz
+        path: /home/runner/work/ClashForMagisk/ClashForMagisk/clash.tar.gz
